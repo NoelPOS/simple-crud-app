@@ -1,6 +1,9 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const Product = require('./models/product.model.js')
+const dotenv = require('dotenv')
+
+dotenv.config()
 
 const app = express()
 
@@ -41,8 +44,6 @@ app.listen(3000, () => {
 })
 
 mongoose
-  .connect(
-    'mongodb+srv://admin:admin123456@simple-crud-app.304zj.mongodb.net/?retryWrites=true&w=majority&appName=simple-crud-app'
-  )
+  .connect(process.env.MONGO_URL)
   .then(() => console.log('Database Connected!'))
   .catch(() => console.log('Database Connection Failed!'))
