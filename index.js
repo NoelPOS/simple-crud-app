@@ -34,6 +34,31 @@ app.post('/api/products', async (req, res) => {
   res.json(createdProduct)
 })
 
+app.put('/api/products/:id', async (req, res) => {
+  const id = req.params.id
+  const product = await Product.findById(id)
+  if (product) {
+    const updatedProduct = await Product.findByIdAndUpdate(id, req.body, {
+      new: true,
+    })
+    res.json(updatedProduct)
+  } else {
+    res.status(404).json({ message: 'Product not found' })
+  }
+})
+
+app.delete('/api/products/:id', async (req, res) => {
+  const id = req.params.id
+
+  const product = Product.findById(id)
+  if (product) {
+    await Product.findByIdAndDelete(id)
+    res.json({ message: 'Product removed' })
+  } else {
+    res.status(404).json({ message: 'Product not found' })
+  }
+})
+
 app.get('/api/getProducts', async (req, res) => {
   const products = await Product.find()
   res.json(products)
